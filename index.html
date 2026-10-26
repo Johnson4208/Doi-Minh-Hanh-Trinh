@@ -135,6 +135,25 @@ body[data-screen="startup"] .topbar{display:none}body[data-screen="startup"] mai
 @media(max-width:700px){.home-story-column .panel-head h2{font-size:18px}.home-story-column .pill{font-size:11px}.home-story-column .story-content h3{font-size:23px}.home-story-column .story-content>p{font-size:14px}.home-story-column .story-kicker{font-size:10px}.home-story-column .story-day{font-size:10px}.home-story-column .story-question{font-size:11px}.home-story-column .story-choice-copy b{font-size:14px}.home-story-column .story-choice-copy small{font-size:10px}.home-story-column .story-choice-badges i{font-size:9px}}
 
 
+
+/* Give unused story space to the illustration instead of the text area. */
+.home-story-column .panel-head{padding:10px 16px;min-height:48px}
+.home-story-column .panel-head h2{font-size:17px}
+.home-story-column .pill{font-size:10px}
+.home-story-column .story-content{padding:10px 15px 12px;max-height:none;overflow:visible;min-height:auto}
+.home-story-column .story-content h3{font-size:21px;line-height:1.25;margin:5px 0}
+.home-story-column .story-content>p{font-size:12px;line-height:1.45;margin:0 0 9px}
+.home-story-column .story-kicker,.home-story-column .story-day{font-size:9px}
+.home-story-column .story-decisions{margin-top:0}
+.home-story-column .story-question{font-size:10px;padding-bottom:6px}
+.home-story-column .story-choice-copy b{font-size:13px;line-height:1.3}
+.home-story-column .story-choice-copy small{font-size:10px;margin-top:2px}
+.home-story-column .story-choice-badges i{font-size:9px}
+.home-story-column .story-option{min-height:48px;padding:7px 10px}
+.home-story-column .story-art>img{object-position:center 40%}
+@media(min-width:701px){.home-story-column .story-card{grid-template-rows:minmax(180px,1fr) auto}.home-story-column .story-art{min-height:180px}}
+@media(max-width:700px){.home-story-column .story-card{grid-template-rows:clamp(220px,52vw,340px) auto}.home-story-column .story-choice-badges{flex-shrink:0}.home-story-column .story-choice-copy small{white-space:normal}}
+
 </style>
 </head>
 <body>
