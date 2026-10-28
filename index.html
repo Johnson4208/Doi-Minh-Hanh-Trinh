@@ -237,6 +237,14 @@ body[data-screen="home"] .top-actions .next-year,body[data-screen="home"] .top-a
 @media(min-width:701px){.game-hero{min-height:230px!important;flex-basis:auto!important;padding-top:52px!important;padding-bottom:22px!important;grid-template-columns:minmax(0,1.55fr) minmax(230px,.8fr) minmax(310px,1fr)!important;gap:20px!important}.hero-controls .orange-day{font-size:18px!important}}
 @media(max-width:1050px) and (min-width:701px){.game-hero{grid-template-columns:minmax(0,1.2fr) minmax(180px,.8fr) minmax(240px,1fr)!important;gap:12px!important}.hero-time-actions{gap:6px}.hero-time-actions .orange-day,.hero-time-actions .hero-year{font-size:14px!important;padding:10px}}
 @media(max-width:700px){.game-hero .hero-controls{grid-column:1/-1;width:100%}.hero-time-actions .orange-day,.hero-time-actions .hero-year{height:50px;min-height:50px;font-size:16px!important}.game-hero{padding-bottom:18px!important}.game-hero .origin-card{align-self:center}.hero-time-actions{grid-template-columns:1.3fr 1fr}}
+
+/* Keep the complete event and its choices inside the card. */
+.home-story-column .story-card{display:flex!important;flex-direction:column;height:100%!important;min-height:0;overflow:hidden}
+.home-story-column .story-content{flex:0 0 auto;min-height:0;max-height:none;overflow:visible}
+.home-story-column .story-art{flex:1 1 220px;height:auto!important;min-height:100px!important;max-height:300px;overflow:hidden}
+.home-story-column #dailyEvent{display:flex;flex-direction:column;min-height:0}
+@media(min-width:701px){.home-board{min-height:550px!important}body[data-screen="home"] main{overflow-y:auto!important}#view-home.active{min-height:100%;height:auto!important}.home-story-column>.today-panel{min-height:550px}}
+@media(max-width:700px){.home-story-column .story-card{height:auto!important}.home-story-column .story-art{flex:none;height:230px!important;min-height:230px!important}.home-story-column>.today-panel{height:auto!important}.home-story-column .story-content{padding-bottom:18px}}
 </style>
 <style>
 /* Audit polish: readable secondary text and unobstructed property markers. */
