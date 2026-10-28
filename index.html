@@ -768,7 +768,7 @@ function clientPortrait(p){const i=p.kind==='fund'?({mai:5,nam:6,lan:7,huy:8,lin
  document.getElementById('marketSearch').addEventListener('input',e=>{marketQuery=e.target.value;renderMarket()});
  document.getElementById('resetBtn').onclick=()=>{if(confirm('Bắt đầu một cuộc đời mới? Tiến trình hiện tại sẽ được xóa.')){state=initial();render();profileModal()}};
  if(!localStorage.getItem('doi-minh-intro-seen')){profileModal();localStorage.setItem('doi-minh-intro-seen','1')}
- window.gameRefreshLocale=()=>render();
+ window.gameRefreshLocale=()=>{render();if(state.pokemonPack&&document.querySelector('.pk-opening'))showPokemonPack()};
  render();
 })();
 </script>
