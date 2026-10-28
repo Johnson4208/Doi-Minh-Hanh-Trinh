@@ -270,6 +270,16 @@ body[data-screen="home"] main{height:100svh!important;overflow:hidden!important;
 .shop-photo.shop-car-corolla{background-image:url("assets/shop-car-corolla.webp")}.shop-photo.shop-car-model3{background-image:url("assets/shop-car-model3.webp")}.shop-photo.shop-car-cayman{background-image:url("assets/shop-car-cayman.webp")}.shop-photo.shop-car-gclass{background-image:url("assets/shop-car-gclass.webp")}.shop-photo.shop-car-ferrari{background-image:url("assets/shop-car-ferrari-roma.webp")}.shop-photo.shop-car-hypercar{background-image:url("assets/shop-car-hypercar.webp")}
 .shop-photo[class*="shop-car-"]{background-size:cover;background-position:center}
 .shop-item-photo{display:block;width:100%;height:180px;object-fit:cover;background:#eee9dc}.shop-product:hover .shop-item-photo{filter:saturate(1.04)}@media(max-width:700px){.shop-item-photo{height:155px}}
+
+/* Keep the property screen within one desktop viewport, like the draggable map view. */
+@media(min-width:701px){
+body[data-screen="property"] main{height:100dvh;max-height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:0 22px 12px}
+body[data-screen="property"] .topbar{flex:0 0 58px;margin:0}
+#view-property.active{display:flex;flex:1;flex-direction:column;min-height:0;overflow:hidden}
+#view-property .view-title{flex:none;margin:6px 0 12px;min-height:68px;align-items:center}
+#view-property .property-layout{flex:1;min-height:0;height:auto;max-height:none}
+#view-property .estate-map,#view-property .estate-list{min-height:0}
+}
 </style>
 <style>
 /* Audit polish: readable secondary text and unobstructed property markers. */
