@@ -720,6 +720,43 @@ function clientPortrait(p){if(p.entity&&p.entity!=='individual')return `<img cla
 function showInstitution(aid){initStartups();const a=STARTUP_ANGELS.find(x=>x.id===aid);if(!a)return;const projects=(state.startups||[]).filter(p=>p.status!=='failed');lifeModal(a.name,`<p>${a.role} · Đối tác gọi vốn mô phỏng</p><p>${a.bio}</p><p>Đầy lòng tin để biết khả năng góp vốn; đầy thoải mái để pitch. Cần ${a.meetings} buổi gặp, đủ 4 bước trao đổi. Mỗi tương tác tốn năng lượng, tối đa một lần mỗi tháng.</p>${projects.length?`<label>Chọn dự án<select id="institutionProject">${projects.map(p=>`<option value="${p.id}">${escFund(p.name)}</option>`).join('')}</select></label><button class="fund-raise" data-cb-institution-open="${a.id}">Xây dựng quan hệ & gọi vốn →</button>`:'<p>Hãy tạo một dự án trước để tiếp cận đối tác này.</p><button class="fund-raise" data-cb-create-project>Tạo dự án</button>'}`)}
 function bankMetricStrip(w,delta){const metrics=[['Tài sản ròng',w.total,'assets/icon-coin.png'],['Tiền gửi & trái phiếu',bankState().deposits.reduce((sum,d)=>sum+d.principal,0),'assets/icon-coin.png'],['Tổng dư nợ',w.debt,'assets/icon-house.png'],['Thay đổi trong 30 ngày',delta,'assets/icon-stock.png']];return `<div class="cb-metrics">${metrics.map(([label,value,icon])=>`<div class="cb-metric"><img src="${icon}" alt=""/><span><small>${label}</small><b>${value===null?'—':cashFmt(value)}</b></span></div>`).join('')}</div>`}
 function renderClientBank(){const root=document.getElementById('clientBankContent');if(!root)return;const w=clientWealth(),people=clientPeople();if(!people.some(p=>p.key===clientBankPerson))clientBankPerson=null;const sum=w.rows.reduce((s,x)=>s+Math.max(0,x[1]),0),history=state.wealthHistory||[],prior=history.findLast(x=>x.day<=state.elapsedDays-30),delta=prior?w.total-prior.value:null;root.innerHTML=`<header class="cb-header"><div><div class="eyebrow">TÀI CHÍNH CÁ NHÂN</div><h1>Horizon Bank</h1><p>Ngân hàng đồng hành cùng bạn</p></div><div class="cb-cash"><small>Tiền mặt của bạn</small><b>${cashFmt(state.cash)}</b></div></header><nav class="cb-tabs" aria-label="Dịch vụ ngân hàng">${[['overview','Tổng quan'],['people','Nhà đầu tư'],['loan','Khoản vay'],['saving','Tiền gửi'],['bond','Trái phiếu'],['insurance','Bảo hiểm']].map(([key,label])=>`<button data-cb-tab="${key}" class="${clientBankTab===key?'selected':''}" aria-pressed="${clientBankTab===key}">${label}</button>`).join('')}</nav>${bankMetricStrip(w,delta)}<div class="cb-workspace"><aside class="cb-contacts"><div class="cb-section-title"><h3>Nhà đầu tư & cổ đông</h3><span>${people.length}</span></div>${people.length?'<button class="cb-outline cb-find" data-find-investor>Tìm nhà đầu tư</button>':''}${people.map(p=>`<button class="cb-person ${clientBankPerson===p.key?'selected':''}" data-cb-person="${p.key}">${clientPortrait(p)}<span><b>${escFund(p.name)}</b><small>${escFund(p.project)}</small><strong>${p.share?(p.share*100).toFixed(2)+'% cổ phần':'Đối tác tiềm năng'}</strong></span></button>`).join('')||`<div class="cb-investor-empty"><img src="assets/bank-growth.webp" alt=""><h3>${localStorage.getItem('doi-minh-language')==='en'?'No investors yet':'Chưa có nhà đầu tư'}</h3><p>${localStorage.getItem('doi-minh-language')==='en'?'Your project is ready. Invite investors or find potential partners to get started.':'Dự án của bạn đã sẵn sàng. Mời nhà đầu tư hoặc tìm đối tác tiềm năng để bắt đầu.'}</p><div><button class="primary" data-find-investor>${localStorage.getItem('doi-minh-language')==='en'?'Find investors':'Tìm nhà đầu tư'}</button><button class="cb-outline" data-find-investor>${localStorage.getItem('doi-minh-language')==='en'?'Invite investor':'Mời nhà đầu tư'}</button></div></div>`}</aside><section class="cb-detail">${clientBankCenter(w,people)}</section><aside class="cb-portfolio"><h3>Thanh khoản cá nhân</h3><div class="cb-ledger"><span>Tiền có thể sử dụng</span><b>${cashFmt(state.cash)}</b></div><div class="cb-ledger"><span>Trả nợ cá nhân mỗi tháng</span><b>${cashFmt(bankState().loans.filter(x=>x.balance>0).reduce((s,l)=>s+l.payment,0))}</b></div><div class="cb-ledger"><span>Trả góp nhà mỗi tháng</span><b>${cashFmt((state.estates||[]).filter(x=>x.balance>0).reduce((s,x)=>s+x.payment,0))}</b></div><h3>Phân bổ tài sản</h3>${w.rows.map(([label,value])=>`<div class="cb-allocation"><span>${label}<b>${compact(value)}</b></span><progress max="100" value="${sum?Math.max(0,value)/sum*100:0}"></progress></div>`).join('')}<div class="cb-context"><b>Phần sở hữu thực của bạn</b><p>Không cộng vốn của cổ đông khác hoặc tiền khách hàng gửi vào quỹ.</p></div></aside></div><footer class="cb-footer"><b>Hoạt động gần đây</b>${bankState().history.slice(0,2).map(x=>`<span>${escFund(x)}</span>`).join('')||'<span>Các giao dịch ngân hàng sẽ xuất hiện tại đây.</span>'}<button data-cb-history>Xem lịch sử</button></footer>`;root.classList.toggle('cb-reference-loan',clientBankTab==='loan');root.classList.toggle('bd-bank',clientBankTab==='people');root.classList.toggle('bd-saving',clientBankTab==='saving');if(clientBankTab==='saving'){const contacts=root.querySelector('.cb-contacts'),plans=BANK_PLANS.filter(p=>p.kind==='saving');contacts.innerHTML=`<div class="cb-section-title"><h3>Sản phẩm tiền gửi</h3><span>${plans.length} gói</span></div><p class="bd-saving-subtitle">Chọn kỳ hạn phù hợp với kế hoạch tài chính của bạn.</p><div class="bd-saving-options">${plans.map((p,i)=>`<label class="bd-saving-option ${i===0?'selected':''}" data-saving-plan="${p.id}"><input type="radio" name="bd-saving-plan" value="${p.id}" ${i===0?'checked':''}/><span class="bd-saving-option-copy"><b>${escFund(p.name)}</b><small>Kỳ hạn ${p.months} tháng</small></span><strong>${(p.rate*100).toFixed(1)}%<small>/năm</small></strong></label>`).join('')}</div><p class="bd-saving-note">${state.age<18?'Mở sổ tiết kiệm từ 18 tuổi.':'Rút trước hạn sẽ khấu trừ lãi đã nhận.'}</p><button class="bd-saving-open" data-cb-saving-open ${state.age<18?'disabled':''}>Mở sổ tiết kiệm</button>`}if(clientBankTab==='people'){const contacts=root.querySelector('.cb-contacts');contacts.innerHTML=`<div class="cb-section-title"><h3>Nhà đầu tư & cổ đông</h3><span>${people.filter(p=>p.share>0).length}</span></div><input class="bd-search" placeholder="Tìm nhà đầu tư, quỹ, tổ chức…" aria-label="Tìm đối tác"/><nav class="bd-filters">${[['all','Tất cả'],['individual','Cá nhân'],['fund','Quỹ đầu tư'],['organization','Tổ chức']].map(([id,n])=>`<button data-cb-filter="${id}" class="${id==='all'?'selected':''}">${n}</button>`).join('')}</nav><div class="bd-contact-list">${people.map(p=>`<button class="cb-person ${clientBankPerson===p.key?'selected':''}" data-cb-person="${p.key}" data-entity="${p.entity}">${clientPortrait(p)}<span><b>${escFund(p.name)}</b><small>${escFund(p.project)}</small><strong>${p.share?(p.share*100).toFixed(2)+'% cổ phần':'Đang tiếp cận'}</strong></span></button>`).join('')||'<div class="bd-empty"><h3>Chưa có nhà đầu tư</h3><p>Tạo dự án hoặc lập quỹ để bắt đầu gọi vốn và xây dựng quan hệ.</p></div>'}</div><button class="cb-outline cb-find" data-find-investor>＋ Tìm nhà đầu tư</button><button class="text-btn" data-cb-discover>Khám phá các quỹ →</button>`;if(!clientBankPerson)root.querySelector('.cb-detail').innerHTML=bankDiscoverHTML()}if(clientBankTab==='overview'){const values=(state.wealthHistory||[]);requestAnimationFrame(()=>plot(document.getElementById('clientWealthChart'),values.map(x=>x.value),values.map(x=>marketDate(x.day-state.elapsedDays)),true))}}
+
+(function(){
+ const desktop=()=>matchMedia('(min-width:1100px)').matches;
+ function fitBankPanels(){
+  const root=document.getElementById('clientBankContent');
+  if(!root||!root.closest('.view.active')||!desktop())return;
+  root.querySelectorAll('.cb-workspace > .cb-contacts,.cb-workspace > .cb-detail,.cb-workspace > .cb-portfolio').forEach(panel=>{
+   if(panel.querySelector(':scope > .bank-panel-body'))return;
+   const body=document.createElement('div');body.className='bank-panel-body';
+   while(panel.firstChild)body.append(panel.firstChild);
+   panel.append(body);
+   const pager=document.createElement('nav');pager.className='bank-panel-pager';
+   const en=localStorage.getItem('doi-minh-language')==='en';
+   pager.setAttribute('aria-label',en?'Panel pages':'Chuyển phần nội dung');
+   pager.innerHTML='<button type="button">'+(en?'← Previous':'← Trước')+'</button><span aria-live="polite"></span><button type="button">'+(en?'Next →':'Tiếp →')+'</button>';
+   panel.append(pager);
+   let page=0;
+   function update(){
+    pager.hidden=body.scrollHeight<=body.clientHeight+2;
+    const step=Math.max(1,body.clientHeight-24),max=Math.max(0,body.scrollHeight-body.clientHeight),pages=Math.max(1,Math.ceil(max/step)+1);
+    page=Math.min(page,pages-1);
+    body.scrollTop=Math.min(page*step,max);
+    pager.children[0].disabled=page===0;pager.children[2].disabled=page===pages-1;
+    pager.children[1].textContent=(en?'Part ':'Phần ')+(page+1)+' / '+pages;
+   }
+   pager.children[0].onclick=()=>{page--;update()};
+   pager.children[2].onclick=()=>{page++;update()};
+   update();requestAnimationFrame(update);
+   body.querySelectorAll('img').forEach(img=>img.addEventListener('load',update,{once:true}));
+  });
+ }
+ const original=renderClientBank;
+ renderClientBank=function(){original.apply(this,arguments);requestAnimationFrame(fitBankPanels)};
+ let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(()=>{if(document.querySelector('#view-bank.active'))renderClientBank()},120)});
+ requestAnimationFrame(fitBankPanels);
+})();
+
  function handleClientBank(e){let action;if(action=e.target.closest('[data-saving-plan]')){const radio=action.querySelector('input[name="bd-saving-plan"]');if(radio){radio.checked=true;document.querySelectorAll('.bd-saving-option').forEach(x=>x.classList.toggle('selected',x===action))}return true}if(e.target.closest('[data-cb-saving-open]')){const id=document.querySelector('input[name="bd-saving-plan"]:checked')?.value||BANK_PLANS.find(p=>p.kind==='saving')?.id;bankSavingConfirm(id);return true}if(action=e.target.closest('[data-cb-institution]')){showInstitution(action.dataset.cbInstitution);return true}if(action=e.target.closest('[data-cb-institution-open]')){const id=document.getElementById('institutionProject')?.value;if(!state.startups?.some(p=>p.id===id))return true;selectedStartup=id;selectedAngel=action.dataset.cbInstitutionOpen;document.getElementById('modalRoot').innerHTML='';currentView='startup';render();return true}if(e.target.closest('[data-cb-create-project]')){document.getElementById('modalRoot').innerHTML='';currentView='startup';render();return true}if(e.target.closest('[data-cb-all-funds]')){lifeModal('Quỹ & tổ chức đầu tư',STARTUP_ANGELS.filter(a=>a.entity).map(a=>`<section class="investor-card"><h3>${a.name}</h3><p>${a.bio}</p><button class="cb-outline" data-cb-institution="${a.id}">Xem chi tiết</button></section>`).join(''));return true}if(e.target.closest('[data-cb-discover]')){clientBankPerson=null;renderClientBank();return true}if(action=e.target.closest('[data-cb-filter]')){const root=document.getElementById('clientBankContent');root.querySelectorAll('[data-cb-filter]').forEach(b=>b.classList.toggle('selected',b===action));root.querySelectorAll('.bd-contact-list .cb-person').forEach(p=>p.hidden=(action.dataset.cbFilter!=='all'&&p.dataset.entity!==action.dataset.cbFilter)||!p.textContent.toLocaleLowerCase().includes(root.querySelector('.bd-search').value.toLocaleLowerCase()));return true}const tab=e.target.closest('[data-cb-tab]'),person=e.target.closest('[data-cb-person]'),modal=e.target.closest('[data-cb-modal]'),open=e.target.closest('[data-cb-open-person]'),confirm=e.target.closest('[data-cb-confirm]');if(tab){clientBankTab=tab.dataset.cbTab;renderClientBank();return true}if(person){clientBankPerson=person.dataset.cbPerson;clientBankTab='people';renderClientBank();return true}if(modal){bankClientModal(modal.dataset.cbModal);return true}if(open){const p=clientPeople().find(x=>x.key===clientBankPerson);if(p){if(p.kind==='startup'){selectedStartup=p.pid;selectedAngel=STARTUP_ANGELS.some(a=>a.id===p.aid)?p.aid:'anh';currentView='startup'}else{selectedFundClient=p.aid;currentView='fund'}render()}return true}if(confirm){const b=bankState(),kind=confirm.dataset.cbConfirm,id=confirm.dataset.cbId;if(kind==='withdraw'){const d=b.deposits.find(x=>x.id===id);if(!d)return true;const paid=Math.floor((state.elapsedDays-d.start)/30)*d.principal*d.rate/12,fee=d.kind==='bond'?d.principal*.02:paid;lifeModal('Xác nhận tất toán',`<p>Hoàn về tiền mặt ${cashFmt(Math.max(0,d.principal-fee))}. ${d.kind==='bond'?'Phí bán sớm 2% gốc.':'Khấu trừ toàn bộ lãi đã nhận.'}</p><button class="primary" data-bank-withdraw="${id}">Xác nhận tất toán</button>`)}else{const l=b.loans.find(x=>x.id===id);if(l)lifeModal('Thanh toán khoản vay',`<p>Trừ ${cashFmt(l.balance)} từ tiền mặt để trả hết dư nợ.</p><button class="primary" data-bank-payoff="${id}">Xác nhận thanh toán</button>`)}return true}if(e.target.closest('[data-cb-history]')){lifeModal('Lịch sử giao dịch ngân hàng',bankState().history.map(x=>`<p>${escFund(x)}</p>`).join('')||'<p>Chưa có giao dịch.</p>');return true}return false}
 
 
@@ -1477,41 +1514,5 @@ body:has(#view-bank.active #clientBankContent.bd-bank) main{height:auto;min-heig
  #clientBankContent .bank-panel-pager button:disabled{opacity:.35;cursor:default}
 }
 </style>
-<script>
-(function(){
- const desktop=()=>matchMedia('(min-width:1100px)').matches;
- function fitBankPanels(){
-  const root=document.getElementById('clientBankContent');
-  if(!root||!root.closest('.view.active')||!desktop())return;
-  root.querySelectorAll('.cb-workspace > .cb-contacts,.cb-workspace > .cb-detail,.cb-workspace > .cb-portfolio').forEach(panel=>{
-   if(panel.querySelector(':scope > .bank-panel-body'))return;
-   const body=document.createElement('div');body.className='bank-panel-body';
-   while(panel.firstChild)body.append(panel.firstChild);
-   panel.append(body);
-   const pager=document.createElement('nav');pager.className='bank-panel-pager';
-   const en=localStorage.getItem('doi-minh-language')==='en';
-   pager.setAttribute('aria-label',en?'Panel pages':'Chuyển phần nội dung');
-   pager.innerHTML='<button type="button">'+(en?'← Previous':'← Trước')+'</button><span aria-live="polite"></span><button type="button">'+(en?'Next →':'Tiếp →')+'</button>';
-   panel.append(pager);
-   let page=0;
-   function update(){
-    pager.hidden=body.scrollHeight<=body.clientHeight+2;
-    const step=Math.max(1,body.clientHeight-24),max=Math.max(0,body.scrollHeight-body.clientHeight),pages=Math.max(1,Math.ceil(max/step)+1);
-    page=Math.min(page,pages-1);
-    body.scrollTop=Math.min(page*step,max);
-    pager.children[0].disabled=page===0;pager.children[2].disabled=page===pages-1;
-    pager.children[1].textContent=(en?'Part ':'Phần ')+(page+1)+' / '+pages;
-   }
-   pager.children[0].onclick=()=>{page--;update()};
-   pager.children[2].onclick=()=>{page++;update()};
-   update();requestAnimationFrame(update);
-   body.querySelectorAll('img').forEach(img=>img.addEventListener('load',update,{once:true}));
-  });
- }
- const original=renderClientBank;
- renderClientBank=function(){original.apply(this,arguments);requestAnimationFrame(fitBankPanels)};
- let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(()=>{if(document.querySelector('#view-bank.active'))renderClientBank()},120)});
- requestAnimationFrame(fitBankPanels);
-})();
-</script></body>
+</body>
 </html>
