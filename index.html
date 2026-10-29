@@ -1231,5 +1231,33 @@ function renderClientBank(){const root=document.getElementById('clientBankConten
 .activity-pack-option.premium i{background:#f2e6bd;color:#80621c}.activity-pack-option.premium.selected i{background:#7c5a16;color:#fff}.activity-pack-option.premium .activity-pack-odds{font-weight:800}
 .shop-pack-premium{border-color:#c6a84e;box-shadow:0 8px 24px #9b792018}.shop-pack-premium .shop-pack-art{background:radial-gradient(ellipse at center,#fff6d2,#cbb15f)}.shop-pack-premium .shop-product-body{background:linear-gradient(180deg,#fffef7,#f8f2de)}.shop-pack-premium .shop-product-body h3:after{content:'  ✦ PREMIUM';font-size:9px;letter-spacing:.06em;color:#8e6c1e;vertical-align:2px}
 </style>
-<style>.activity-pack-hero.premium-hero{background:radial-gradient(ellipse at 82% 25%,#d5b85b55,transparent 45%),radial-gradient(ellipse at 10% 100%,#27745366,transparent 60%),linear-gradient(120deg,#10271f,#183b30 60%,#30291b);border:1px solid #d2b46a;box-shadow:0 16px 38px #17112628}.premium-hero .activity-pack-art img{transform:rotate(5deg);filter:drop-shadow(0 0 24px #e7c87577);border-radius:12px}</style></body>
+<style>.activity-pack-hero.premium-hero{background:radial-gradient(ellipse at 82% 25%,#d5b85b55,transparent 45%),radial-gradient(ellipse at 10% 100%,#27745366,transparent 60%),linear-gradient(120deg,#10271f,#183b30 60%,#30291b);border:1px solid #d2b46a;box-shadow:0 16px 38px #17112628}.premium-hero .activity-pack-art img{transform:rotate(5deg);filter:drop-shadow(0 0 24px #e7c87577);border-radius:12px}</style>
+<style>
+/* Desktop pack selection: even two-row grid with clearer pack artwork. */
+@media(min-width:1280px){
+ .activity-pack-picker{padding:22px 24px;border-radius:22px;background:linear-gradient(145deg,#fffefa 0%,#faf9f2 100%);box-shadow:0 12px 32px #173b2c0a}
+ .activity-pack-picker .activity-section-head{margin:0 2px 16px}
+ .activity-pack-picker .activity-section-head h2{font-size:23px;letter-spacing:-.5px}
+ .activity-pack-picker .activity-section-head .eyebrow{font-size:10px;letter-spacing:.15em}
+ .activity-pack-count{padding:8px 12px;font-size:11px}
+ .activity-pack-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+ .activity-pack-option{grid-template-columns:66px minmax(0,1fr) 28px;gap:12px;min-height:104px;padding:11px;border-radius:17px}
+ .activity-pack-option img{width:66px;height:80px;border-radius:9px;background:linear-gradient(145deg,#f5f5ed,#e9ede2)}
+ .activity-pack-option b{font-size:13px;line-height:1.3}
+ .activity-pack-option small{margin-top:5px;font-size:10px}
+ .activity-pack-option .activity-pack-odds{margin-top:5px;font-size:9px}
+ .activity-pack-option i{width:26px;height:26px;font-size:14px}
+ .activity-pack-option.premium{background:linear-gradient(135deg,#fffdf4,#f6f0dc)}
+ .activity-pack-option.premium.selected{background:linear-gradient(135deg,#fff9e4,#eee2ba)}
+}
+@media(min-width:701px) and (max-width:1279px){
+ .activity-pack-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .activity-pack-option{grid-template-columns:54px minmax(0,1fr) 24px;min-height:82px}
+ .activity-pack-option img{width:54px;height:66px}
+ .activity-pack-option b{font-size:12px}
+ .activity-pack-option small{font-size:9px}
+}
+.activity-pack-option:focus-visible{outline:3px solid #5f9872;outline-offset:2px}
+</style>
+</body>
 </html>
