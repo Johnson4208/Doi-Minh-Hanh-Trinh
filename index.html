@@ -358,10 +358,10 @@ body[data-screen="invest"] .desk-history th,body[data-screen="invest"] .desk-his
     <div class="brand"><div class="brand-mark">✳</div><div>Đời Mình<small>một đời để sống</small></div></div>
     <div class="nav-label">Hành trình</div>
     <nav class="nav" aria-label="Điều hướng chính">
-      <button class="active" data-view="home"><span class="ico">⌂</span>Tổng quan</button>
-      <button data-view="invest"><span class="ico">◒</span>Đầu tư</button>
-      <button data-view="bank"><span class="ico">▥</span>Ngân hàng</button><button data-view="property"><span class="ico">⌖</span>Nhà đất</button><button data-view="life"><span class="ico">✳</span>Hoạt động</button>
-      <button data-view="shop"><span class="ico">▧</span>Mua sắm</button><button data-view="journal"><span class="ico">▤</span>Nhật ký</button>
+      <button class="active" data-view="home"><span class="ico">⌂</span><span class="nav-text">Tổng quan</span></button>
+      <button data-view="invest"><span class="ico">◒</span><span class="nav-text">Đầu tư</span></button>
+      <button data-view="bank"><span class="ico">▥</span><span class="nav-text">Ngân hàng</span></button><button data-view="property"><span class="ico">⌖</span><span class="nav-text">Nhà đất</span></button><button data-view="life"><span class="ico">✳</span><span class="nav-text">Hoạt động</span></button>
+      <button data-view="shop"><span class="ico">▧</span><span class="nav-text">Mua sắm</span></button><button data-view="journal"><span class="ico">▤</span><span class="nav-text">Nhật ký</span></button>
     </nav>
     <div class="sidebar-bottom"><div class="profile-mini"><div class="avatar" id="sideAvatar">🧑🏻</div><div><b id="sideName">Minh Anh</b><span id="sideAge">18 tuổi · Đang bắt đầu</span></div></div></div>
   </aside>
@@ -1002,6 +1002,19 @@ function renderClientBank(){const root=document.getElementById('clientBankConten
 .pk-market-current b{color:#233e2b;font-size:15px;white-space:nowrap}
 @media(min-width:701px){.pk-market-card{grid-template-columns:1fr;gap:8px}.pk-market-card .pk-ticket-card{width:min(160px,100%);max-height:230px;margin-inline:auto}.pk-market-meta .pk-source{margin-top:0}}
 @media(max-width:400px){.pk-market-card{grid-template-columns:minmax(98px,1fr) minmax(0,1.05fr);gap:9px}.pk-market-meta .pk-source,.pk-market-link{font-size:11px}}
+</style>
+<style id="mobile-nav-layout-fix">
+@media(max-width:700px){
+ .app{padding-bottom:calc(76px + env(safe-area-inset-bottom))!important}
+ .sidebar{position:fixed;z-index:20;inset:auto 0 0;height:calc(72px + env(safe-area-inset-bottom))!important;min-height:0!important;box-sizing:border-box;padding:5px 6px max(5px,env(safe-area-inset-bottom))!important;background:#15382b;box-shadow:0 -8px 24px #102d2230}
+ .sidebar .nav{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr));align-items:stretch;gap:2px;width:100%;height:100%;overflow:visible}
+ .sidebar .nav button{display:flex;min-width:0;width:100%;height:100%;flex-direction:column;justify-content:center;align-items:center;gap:4px;padding:4px 1px!important;border-radius:13px;text-align:center;white-space:normal;overflow:visible;font-size:9px!important;line-height:1.1}
+ .sidebar .nav .ico{display:grid;place-items:center;flex:0 0 auto;width:100%;font-size:18px!important;line-height:1}
+ .sidebar .nav .nav-text{display:-webkit-box;max-width:100%;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;white-space:normal;overflow-wrap:normal;text-overflow:clip;font-size:clamp(8px,2.2vw,9px);line-height:1.12;letter-spacing:-.12px}
+ .sidebar .nav button.active{background:#245740!important;color:#d3f37d!important;box-shadow:inset 0 0 0 1px #ffffff16}
+ .sidebar .nav button:focus-visible{outline:2px solid #d5ee85;outline-offset:-2px}
+}
+@media(max-width:360px){.sidebar .nav{gap:0}.sidebar .nav button{padding-inline:0!important}.sidebar .nav .nav-text{font-size:8px;letter-spacing:-.2px}.sidebar .nav .ico{font-size:17px!important}}
 </style>
 </body>
 </html>
