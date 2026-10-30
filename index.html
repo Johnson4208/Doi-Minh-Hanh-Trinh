@@ -753,6 +753,11 @@ function renderClientBank(){const root=document.getElementById('clientBankConten
    pager.setAttribute('aria-label',en?'Panel pages':'Chuyển phần nội dung');
    pager.innerHTML='<button type="button">'+(en?'← Previous':'← Trước')+'</button><span aria-live="polite"></span><button type="button">'+(en?'Next →':'Tiếp →')+'</button>';
    panel.append(pager);
+   if(body.querySelector('.cb-person-heading')){
+    body.style.overflow='auto';
+    pager.hidden=true;
+    return;
+   }
    const discoverPages=[...body.querySelectorAll('[data-discover-page]')];
    if(discoverPages.length){
     let activePage=0;
